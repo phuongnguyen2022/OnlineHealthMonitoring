@@ -1,0 +1,92 @@
+.availUsers {
+    list-style-type: none;
+    margin: 20px;
+    padding: 0;
+   /*  height: 90%; */
+}
+
+.availUsers > li {
+    margin-top: 20px;
+    padding: 10px;
+    border-top: 1px solid black;
+        border-radius: 10px;
+}
+
+.availUsers > li:hover {
+    background-color:rgb(158 239 158);
+    cursor: pointer;
+}
+
+.availUsers .selected {
+    background-color:rgb(158 239 158);
+}
+
+.availUsers #check {
+    display: none;
+}
+
+.availUsers img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+
+.tool {
+    display: flex;
+    margin: 20px;
+    padding: 0;
+    height: 10%;
+}
+
+.cusBtn {
+    display: block;
+    background-color: white;
+    border: 1px solid black;
+    color: black;
+    text-align: center;
+    padding-top: 6px;
+    width: 100%;
+    height: 40px;
+    margin: 5px;
+    border-radius: 5px;
+}
+
+.cusBtn:hover {
+    cursor: pointer;
+    color: white;
+}
+
+.accept:hover {
+    background-color: green;
+}
+
+.reset:hover {
+    background-color: red;
+}
+
+.neutral:hover {
+    background-color:rgb(158 239 158);
+}
+
+form {
+    margin-top: 20px;
+    padding: 20px;
+}
+
+.symptom {
+    list-style-type: none;
+    margin: 0px;
+    padding: 0;
+    overflow: scroll;
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+}
+
+.symptom::-webkit-scrollbar {
+    display: none;
+}
+
+.symptom input,
+.symptom textarea {
+    resize: none;
+}

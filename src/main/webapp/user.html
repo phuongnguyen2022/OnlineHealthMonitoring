@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>User Information</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style type="text/css">
+            .row-edit{
+                margin: 5px;
+                border-radius: 30px;
+         		display:flex;
+                padding: 5px 10px 5px 10px;
+                background-color: #fff;
+            }
+           .row-edit div:nth-child(2){
+           margin-left:5px;
+           }
+            .row-edit i{                    
+                color: #333;
+                margin: 0 7px 0 7px;
+            }
+            .container-edit{
+             margin-left: 25%;
+			    margin-right: 25%;
+			    margin-top: 30px;
+			    border: 3px solid #ccc;
+			    border-radius: 20px;
+			       padding: 20px 30px 20px 30px;
+            }
+            .line{
+                margin-bottom: 20px;
+            }
+            .text-center img{
+                width: 70px
+            }
+              .line{
+         text-align: center;
+                margin-bottom: 40px;
+            }
+            .text-center img{
+                width: 70px
+            }
+             .row-edit{
+             text-align: center;
+                margin: 5px;
+                padding: 5px 10px 5px 10px;
+            }
+            .row-edit i{                    
+                color: #333;
+                margin: 0 7px 0 7px;
+            }
+
+            .logo-icon img{
+                width: 70px
+            }
+            #close, #consult-close{
+                display: none;
+            }
+            .user{
+                font-size:14px;
+                font-style: italic;
+                color: white;
+            }
+            .main-present{
+                height: 600px;
+                width: 2000px;
+            }
+            .loader {
+                display: none;
+                top: 35%;
+                bottom: 30%;
+                left: 45%;
+                right: 30%;
+                position: fixed;
+                z-index: 99;
+                border: 16px solid #f3f3f3;
+                border-radius: 50%;
+                border-top: 16px;
+                width: 0px;
+                height: 0px;
+                -webkit-animation: spin 2s linear infinite; /* Safari */
+                animation: spin 2s linear infinite;
+            }
+
+            @-webkit-keyframes spin {
+                0% { -webkit-transform: rotate(0deg); }
+                100% { -webkit-transform: rotate(360deg); }
+            }
+
+            @keyframes spin {
+                0% { transform: rotate(0deg); }
+                100% { transform: rotate(360deg); }
+            }
+            .background-change{
+                width:0%;
+                position:fixed;
+                z-index:90;
+                opacity:0.4;
+                background-color:rgba(0, 0, 0, 0.4);
+                top: 0px;
+                bottom: 0px;
+            }
+            .scanning{
+                display: none;
+                width:0%;
+                position:fixed;
+                z-index:91;
+                left: 40%;
+                top: 30%;
+                bottom: 0px;
+            }
+      		 .btn-outline-primary{
+			    color: #fff;
+			    background-color:#54944e;
+			    border-color: #54944e;
+			  }
+			  	.btn-outline-primary:hover{
+			    color: #fff;
+			    background-color:#54944e;
+			    border-color: #54944e;
+			  }
+        </style>
+    </head>
+    <body>
+     <header>
+            <nav class="navbar navbar-light" style="background-color:rgb(158 239 158);">
+                <div class="container-fluid">
+                    <div class="col-3 logo-icon ">
+                        <img src="images/logo.png">
+                    </div>
+                         <div class="col-3">
+                    </div>
+                    
+            </nav>
+        </header>
+        <main>
+            <!-- deisign something to show the user information -->
+            <div class="user-content"></div>
+            <a href="homepage.html"></a>
+        </main>
+
+    </body>
+     <script src="js/jquery-3.1.1.js"></script>
+    <script>
+        $(document).ready(function () {
+            var user;
+            $.get(
+                    "http://localhost:9090/OnlineHealthMonitoring/UserManage",
+                    {Type: "UserTranfer"},
+                    function (data) {
+                        user = data;
+                        showUser(user);
+                    }, "Json"
+                    );
+            function showUser(userInfor) {
+                let _str = '';
+                _str += `
+                                    <div class="container-edit">
+                                        <div class="container">
+                                            <div class="line"><h3>User Information</h3></div>
+                                            <div class="row row-edit">
+                                                    <div class="col-md-6">Full name: </div>
+                                                    <div class="col-md-6">${userInfor.fullName}</div>
+                                            </div>
+                                            <div class="row row-edit">
+                                                    <div class="col-md-6">Gender: </div>
+                                                    <div class="col-md-6">${userInfor.gender}</div>
+                                            </div>
+                                            <div class="row row-edit">
+                                                    <div class="col-md-6">Age: </div>
+                                                    <div class="col-md-6">${userInfor.age}</div>
+                                            </div>
+                                            <div class="row row-edit">
+                                                    <div class="col-md-6">Address: </div>
+                                                    <div class="col-md-6">${userInfor.address}</div>
+                                            </div>
+                                            <div class="row row-edit">
+                                                    <div class="col-md-6">Phone number: </div>
+                                                    <div class="col-md-6">${userInfor.phoneNumber}</div>
+                                            </div>
+                                            <div class="row row-edit">
+                                                    <div class="col-md-6">Email: </div>
+                                                    <div class="col-md-6">${userInfor.email}</div>
+                                            </div>
+                                        </div>
+                                        <div><a href="homepage.html"  style="margin-left: 43%;color: #54944e;text-decoration: none;border: 3px black;font-weight: bolder;font-size: 20px;"> < Return</a></div>
+                                    </div>`;
+                $('.user-content').html('');
+                $('.user-content').append(_str);
+            }
+            ;
+        });
+    </script>
+</html>

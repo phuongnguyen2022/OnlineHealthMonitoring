@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <title>Home Page</title>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
+
+        <!--JQ-->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <!-- Bootstrap CSS -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet"
+              integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+        <!--JQ ui-->
+   		<script src="js/jquery-3.1.1.js"></script>
+        <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+        <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
+        <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+        <!--FA4.7-->
+        <link rel="stylesheet" type="text/css"
+              href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+        </link>
+        <style type="text/css">
+            .row-edit{
+                margin: 5px;
+                border-radius: 30px;
+  
+                padding: 5px 10px 5px 10px;
+                background-color: #fff;
+            }
+            .row-edit div:first-child{
+                border-right: 3px solid #ccc;
+            }
+            .row-edit i{                    
+                color: #333;
+                margin: 0 7px 0 7px;
+            }
+            .container-edit{
+                margin-left: 25%;
+                margin-right: 25%;
+                margin-top: 30px;
+                border: 3px solid #ccc;
+                border-radius: 20px;
+                padding: 20px 30px 20px 30px;
+  
+            }
+            .line{
+                margin-bottom: 20px;
+            }
+            .text-center img{
+                width: 70px
+            }
+            #close, #consult-close{
+                display: none;
+            }
+            .user{
+                font-size:14px;
+                font-style: italic;
+    
+            }
+            .row-edit button{
+                border-radius: 20px;
+                margin-left: 40%;
+            }
+            .edit-hidden-section{
+                display: none;
+            }
+            .monitoring-health{
+                width: 60%;
+                margin-left: auto;
+                margin-right: auto;
+            }
+            .monitoring-health > div > div{
+                height: 600px;
+            }
+            .patient-name > p, .patient-name > img{
+                display: inline;
+            }
+            .patient-name > img{
+                border-radius: 50%;
+                border: 1px solid #ccc;
+                width: 50px;
+                height: 50px;
+            }
+            .monitoring-health .container-edit{
+                margin-left: 10% !important;
+                margin-right: 10% !important;
+
+            }
+            .monitoring-health .row-edit button{
+                margin-left: 30% !important;
+            }
+        </style> 
+        <script type="text/javascript">
+            $(function () {
+                $("#accordion").accordion();
+            });
+        </script> 
+    </head>
+
+    <body>
+        <main>
+            <div class="monitoring-health">
+                <div id="accordion">
+
+                </div>        
+            </div>
+
+        </main>
+        <script>
+            $(document).ready(function () {
+//              monitoring
+                let registeredPatients, registeredHealth;
+                $.get(
+                        "http://localhost:9090/OnlineHealthMonitoring/ShowRegisteredPatients",
+                        {Type: "UserTranfer"},
+                        function (data) {
+                            registeredPatients = data;
+                            showPatients();
+                        }, "Json"
+                        );
+                function showPatients() {
+                    let _str = '';
+                    let i = 0;
+                    for (let p of registeredPatients) {
+                        _str += `
+                    <h3>
+                        <div class="patient-name">
+                            <p>${p.fullName}</p>
+                            <img src="${p.picturePath}">
+                        </div>
+                    </h3>
+                    <div class="patient-content-${i}">
+                          
+                    </div>
+                        `;
+                        i++;
+                    }
+                    $('#accordion').html('');
+                    $('#accordion').append(_str);
+                }
+                ;
+                $.get(
+                        "http://localhost:9090/OnlineHealthMonitoring/DoctorViewHealth",
+                        {Type: "HealthStatusTranfer"},
+                        function (data) {
+                            registeredHealth = data;
+                            showRegisteredHealth();
+                        }, "Json"
+                        );
+                function showRegisteredHealth() {
+                    let _str = '';
+                    let i = 0;
+                    for (let p of registeredHealth) {
+                        _str = `
+                       <div class="container-edit">
+                            <div class="container">
+                                <div class="line"><h3>Health Status Record</h3></div>
+                                <div class="row row-edit">
+                                    <div class="col-md-6">Weight:</div>
+                                    <div class="col-md-6"><i class="fa fa-clock-o" aria-hidden="true"></i> ${p.weight} kg</div>
+                                </div>
+                                <div class="row row-edit">
+                                    <div class="col-md-6">Height:</div>
+                                    <div class="col-md-6"><i class="fa fa-male" aria-hidden="true"></i>${p.height} cm</div>
+                                </div>
+                                <div class="row row-edit">
+                                    <div class="col-md-6">Blood Pressure:</div>
+                                    <div class="col-md-6"><i class="fa fa-heartbeat" aria-hidden="true"></i>${p.bloodPressure}</div>
+                                </div>
+                                <div class="row row-edit">
+                                    <div class="col-md-6">Blood Sugar:</div>
+                                    <div class="col-md-6"><i class="fa fa-heart-o" aria-hidden="true"></i>${p.bloodSugar}</div>
+                                </div>
+                                <div class="row row-edit">
+                                    <div class="col-md-6">Urine Sugar:</div>
+                                    <div class="col-md-6"><i class="fa fa-glass" aria-hidden="true"></i>${p.allergy}</div>
+                                </div>
+                                <div class="row row-edit">
+                                    <div class="col-md-6">Allergy:</div>
+                                    <div class="col-md-6"><i class="fa fa-window-close-o" aria-hidden="true"></i>${p.unineSuger}</div>
+                                </div>
+                                <div class="row row-edit">
+                                    <div class="col-md-6">Background Disease:</div>
+                                    <div class="col-md-6"><i class="fa fa-bed" aria-hidden="true"></i>${p.backgroundDisease}</div>
+                                </div>
+                                <div class="row row-edit">
+                                    <div class="col-md-6">Checkup Date:</div>
+                                    <div class="col-md-6"><i class="fa fa-calendar" aria-hidden="true"></i>${p.checkupDate}</div>
+                                </div>
+                            </div>
+                       </div>
+                        `;
+//                        console.log(_str);
+                        $(`.patient-content-${i}`).html('');
+                        $(`.patient-content-${i}`).append(_str);
+                        i++;
+                    }
+                }
+                ;
+            });
+        </script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"
+                integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj"
+        crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+    </body>
+
+</html>

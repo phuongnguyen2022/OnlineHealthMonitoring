@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Health Status</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!--JQ-->
+		<script src="js/jquery-3.1.1.js"></script>
+        <!-- Bootstrap CSS -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet"
+              integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+        <style>
+            .row-edit{
+                margin: 5px;
+                border-radius: 30px;
+          
+                padding: 5px 10px 5px 10px;
+                background-color: #fff;
+            }
+            .row-edit i{                    
+                color: #333;
+                margin: 0 7px 0 7px;
+            }
+            .container-edit{
+                margin-left: 25%;
+                margin-right: 25%;
+                margin-top: 30px;
+                border: 3px solid #ccc;
+                border-radius: 20px;
+                padding: 20px 30px 20px 30px;
+          
+            }
+            .line{
+                margin-bottom: 20px;
+            }
+            .text-center img{
+                width: 70px
+            }
+            .row-edit button{
+                border-radius: 10px;
+                margin-left: 40%;
+            }
+        </style>
+        <script>
+            $(document).ready(function () {
+                let scan;
+                $.get(
+                        "http://localhost:8080/OnlineHealthMonitoring/ViewHealthStatus",
+                        {Type: "HealthStatus"},
+                        function (data) {
+                            scan = data;
+                            showStatus();
+                        }, "Json"
+                        );
+                function showStatus() {
+                    let _str = '';
+                    _str += `
+                                <div class="container-edit">
+                                    <div class="container">
+                                        <div class="line"><h3>Health Status Record</h3></div>
+                                        <div class="row row-edit">
+                                                <div class="col-md-6">Weight:</div>
+                                                <div class="col-md-6 weight"><i class="fa fa-clock-o" aria-hidden="true"></i>${scan.weight} kg</div>
+                                        </div>
+                                        <div class="row row-edit">
+                                                <div class="col-md-6">Height:</div>
+                                                <div class="col-md-6"><i class="fa fa-male" aria-hidden="true"></i>${scan.height} cm</div>
+                                        </div>
+                                        <div class="row row-edit">
+                                                <div class="col-md-6">Blood Pressure:</div>
+                                                <div class="col-md-6"><i class="fa fa-heartbeat" aria-hidden="true"></i>${scan.bloodPressure}</div>
+                                        </div>
+                                        <div class="row row-edit">
+                                                <div class="col-md-6">Blood Sugar:</div>
+                                                <div class="col-md-6"><i class="fa fa-heart-o" aria-hidden="true"></i>${scan.bloodSugar}</div>
+                                        </div>
+                                        <div class="row row-edit">
+                                                <div class="col-md-6">Urine Sugar:</div>
+                                                <div class="col-md-6"><i class="fa fa-glass" aria-hidden="true"></i>${scan.unineSuger}</div>
+                                        </div>
+                                        <div class="row row-edit">
+                                                <div class="col-md-6">Allergy:</div>
+                                                <div class="col-md-6"><i class="fa fa-window-close-o" aria-hidden="true"></i>${scan.allergy}</div>
+                                        </div>
+                                        <div class="row row-edit">
+                                                <div class="col-md-6">Background Disease:</div>
+                                                <div class="col-md-6"><i class="fa fa-bed" aria-hidden="true"></i>${scan.backgroundDisease}</div>
+                                        </div>
+                                        <div class="row row-edit">
+                                                <div class="col-md-6">Checkup Date:</div>
+                                                <div class="col-md-6"><i class="fa fa-calendar" aria-hidden="true"></i>${scan.checkupDate}</div>
+                                        </div>
+                                        <div class="row row-edit">
+                                                <div class="col-md-12">
+                                                    <button type="button" class="edit-health-btn" onclick="updateHealth()" >Update Health</button>
+                                                </div>
+                                        </div>
+                                    </div>
+                                </div>`;
+                    $('.health-status').html('');
+                    $('.health-status').append(_str);
+                }
+                ;
+            });
+            function updateHealth() {
+                let _str = '';
+                _str += `
+            <div class="edit-hidden-section">
+            <form action="UpdateHealthStatus" method="GET" class="updateForm">
+                <div class="container-edit">
+                    <div class="container">
+                        <div class="line"><h3>Health Status Record</h3></div>
+                        <div class="row row-edit">
+                            <div class="col-md-6"><label for="weight">Weight:</label></div>
+                            <div class="col-md-6"><i class="fa fa-clock-o" aria-hidden="true"></i><input required type="text" name="weight" id="weight"> kg</div>
+                        </div>
+                        <div class="row row-edit">
+                            <div class="col-md-6"><label for="height">Height:</label></div>
+                            <div class="col-md-6"><i class="fa fa-clock-o" aria-hidden="true"></i><input required type="text" name="height" id="height"> cm</div>
+                        </div>
+                        <div class="row row-edit">
+                            <div class="col-md-6"><label for="bPressure">Blood Pressure:</label></div>
+                            <div class="col-md-6"><i class="fa fa-clock-o" aria-hidden="true"></i><input required type="text" name="bPressure" id="bPressure"></div>
+                        </div>
+                        <div class="row row-edit">
+                            <div class="col-md-6"><label for="bSugar">Blood Sugar:</label></div>
+                            <div class="col-md-6"><i class="fa fa-clock-o" aria-hidden="true"></i><input required type="text" name="bSugar" id="bSugar"></div>
+                        </div>
+                        <div class="row row-edit">
+                            <div class="col-md-6"><label for="uSugar">Urine Sugar:</label></div>
+                            <div class="col-md-6"><i class="fa fa-clock-o" aria-hidden="true"></i><input required type="text" name="uSugar" id="uSugar"></div>
+                        </div>
+                        <div class="row row-edit">
+                            <div class="col-md-6"><label for="allergy">Allergy:</label></div>
+                            <div class="col-md-6"><i class="fa fa-clock-o" aria-hidden="true"></i><input required type="text" name="allergy" id="allergy"></div>
+                        </div>
+                        <div class="row row-edit">
+                            <div class="col-md-6"><label for="bDesease">Background Desease:</label></div>
+                            <div class="col-md-6"><i class="fa fa-clock-o" aria-hidden="true"></i><input required type="text" name="bDesease" id="bDesease"></div>
+                        </div>
+                        <div class="row row-edit">
+                            <div class="col-md-6"><label for="datepicker">Checkup Date:</label></div>
+                            <div class="col-md-6"><i class="fa fa-clock-o" aria-hidden="true"></i><input type="date" name="cDate" id="datepicker" required></div>
+                        </div>
+                        <div class="row row-edit">
+                            <div class="col-md-6">
+                                <button class="edit-health-apply-btn" type="submit" onclick="updateHealthStatus()">Apply Changes</button>
+                            </div>
+                            <div class="col-md-6">
+                                <button class="edit-health-cancel-btn" onclick="back()">Cancel</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+            `;
+                $('.health-status').html('');
+                $('.health-status').append(_str);
+            }
+            ;
+            function updateHealthStatus() {
+                alert("Succesfully updated!");
+                $('.changes-applied').css("display","block");
+            };
+            function back() {
+                window.location="healthstatus.html";
+            };
+        </script>
+    </head>
+    <body>
+        <main>
+            <div class="health-status"></div>
+        </main>
+    </body>
+</html>

@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <title>Home Page</title>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
+
+        <!--JQ-->
+         <script src="js/jquery-3.1.1.js"></script>
+        <!-- Bootstrap CSS -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet"
+              integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+        <!--JQ ui-->
+        <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+        <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
+        <script src="js/jquery-3.1.1.js"></script>
+        <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+        <!--FA4.7-->
+        <link rel="stylesheet" type="text/css"
+              href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+        </link>
+        <style type="text/css">
+            .row-edit{
+                margin: 5px;
+                border-radius: 30px;
+                padding: 5px 10px 5px 10px;
+            }
+   
+            .row-edit i{
+                color: #333;
+                margin: 0 7px 0 7px;
+            }
+            .container-edit{
+                margin-top: 30px;
+              
+                border-radius: 20px;
+               
+                max-width: 100%;
+            }
+            .row-edit button{
+                border-radius: 10px;
+                margin-left: 25%;
+                background-color: #54944e;
+                color: white;
+            }
+            .service-purchase{
+                border-radius: 15px;
+                margin-top: 40px;
+                padding-bottom: 30px;
+            }
+            .service-list{
+                width: 90%;
+                margin-left: auto;
+                margin-right: auto;
+            }
+            .custom-btn{
+               border-radius: 10px;
+			    padding: 6px;
+			    color: white;
+			    background-color: rgb(111 170 106);
+            }
+        </style>
+        <script type="text/javascript">
+            $(function () {
+                $("#accordion").accordion();
+            });
+        </script>
+    </head>
+    <body>
+        <main>
+            <div class="service-purchase" >
+                <div class="service-list">
+                    <div class="container container-edit">
+                    </div>
+                    <div id="htmlContent">
+                        <div class="pick-list" >
+                            <hr>
+                            <h3>Picked Services</h3>
+                            <div class="list-services">
+                            </div>
+                            <div class="calculate-rq">
+                                <button class="cal-btn custom-btn" onclick="calClick()">Calculate Bill</button>
+                            </div>
+                        </div>
+                        <div class="total-price">
+                            <hr>
+                            <h3>Total Payment</h3>
+                            <div class="calculate-price">
+                                <p class="price-cal"></p>
+                            </div>
+                            <div class="payment-btn-div">
+                                <button class="purchase-page custom-btn" onclick="movePage()">Go to Purchase Page</button>
+                                <button class="generatePDF custom-btn" onclick="generateBill()">Save Bill</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"
+                integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj"
+        crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.4/jspdf.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+        <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+        <script>
+                                    function movePage() {
+                                        window.location = "payment.html";
+                                    }
+                                    ;
+                                    var packages;
+                                    $.get(
+                                            "http://localhost:8080/OnlineHealthMonitoring/GetServices",
+                                            {Type: "TestServices"},
+                                            function (data) {
+                                                packages = data;
+                                                ShowServices(packages);
+                                            }, "Json"
+                                            );
+
+                                    let services = [];
+                                    let billArr = [];
+                                    function purchaseClick(id) {
+                                        idGet = id;
+                                        document.getElementById(id).disabled = true;
+                                        let itemName = "nameId" + id;
+                                        itemName = document.getElementById(itemName).innerHTML;
+                                        let itemPrice = "priceId" + id;
+                                        itemPrice = document.getElementById(itemPrice).innerHTML;
+                                        let deleteItem = "del" + id;
+                                        const item = {iid: id, price: itemPrice};
+                                        billArr.push(item);
+
+                                        let str = `<div class="container ${id} container-edit">
+                            <div class="row row-edit">
+                                <div class="col-md-6">${itemName}</div>
+                                <div class="col-md-4">${itemPrice}</div>
+                                <div class="col-md-2">
+                                    <button class="undo-btn ${id}" id="${deleteItem}" onclick="deleteClick(${id})">Delete</button>
+                                </div>
+                            </div>
+                        </div>`;
+                                        $('.list-services').append(str);
+
+                                    }
+                                    ;
+                                    function deleteClick(id) {
+                                        document.getElementById(id).disabled = false;
+                                        billArr.forEach(function (item, index, array) {
+                                            if (item.iid == id) {
+                                                billArr.splice(index, 1);
+                                            }
+                                        });
+                                        $('.' + id).html('');
+                                        $('.' + id).css("display", "none");
+                                    }
+                                    ;
+                                    function calClick() {
+                                        let total = 0;
+                                        billArr.forEach(function (item, index, array) {
+
+                                            total += parseInt(item.price);
+                                        })
+                                        $('.price-cal').html('');
+                                        $('.price-cal').append(total);
+                                        if (total == 0) {
+                                            $('.price-cal').append(" - You have picked no services!");
+                                        }
+                                    }
+                                    function ShowServices(serviceList) {
+                                        let _str = `<div class="row row-edit">
+                            <div class="col-md-2">Order Number</div>
+                            <div class="col-md-4">Purchase Item</div>
+                            <div class="col-md-3">Price</div>
+                            <div class="col-md-3">Accept Purchase</div>
+                            </div>`;
+                                        for (let p of serviceList) {
+                                            const service = {sid: p.id, price: p.price, name: p.testPackagesName};
+                                            services.push(service);
+                                            _str += `<div class="row row-edit">
+                            <div class="col-md-2" id="id">${p.id}</div>
+                            <div class="col-md-4" id="nameId${p.id}">${p.testPackagesName}</div>
+                            <div class="col-md-3" id="priceId${p.id}">${p.price}</div>
+                            <div class="col-md-3">
+                                <button class="purchase-btn" id="${p.id}" onclick="purchaseClick(${p.id})">Purchase</button>
+                            </div>
+                            </div>
+                            `;
+                                        }
+                                        ;
+                                        console.log(services);
+                                        $('.container-edit').html('');
+                                        $('.container-edit').append(_str);
+                                    }
+                                    ;
+                                    function generateBill() {
+                                        var doc = new jsPDF('p', 'pt', 'a4', true);
+                                        doc.fromHTML($('#htmlContent').get(0), 15, 15, {
+                                            'width': 500
+                                        },
+                                                function () {
+                                                    doc.save('payment.pdf');
+                                                });
+                                    }
+                                    ;
+        </script>
+    </body>
+
+</html>

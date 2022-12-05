@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <style type="text/css">
+            img{
+              
+    max-height: 70%;
+    margin: 11px;
+
+            }
+            .f-line{
+                background:rgb(158 239 158);
+                height: 90px;
+            }
+            header .container {
+                max-height: 100%;
+
+            }
+            .logo{
+                padding-left: 10%;
+                width: 40%;
+            }
+            main{
+                background: #EAE9E4;
+                padding: 45px;
+            }
+            .main-frame{
+                margin-left: 30%;
+   				margin-right:30%;
+            }
+            .main-frame h1{
+                text-align: center;
+            }
+            .btn-ch{
+                width: 40%;
+                margin-left: 30%;
+                margin-top: 20px;
+                margin-bottom: 20px;
+            }
+            .forget-pw{
+                text-align: center;
+            }
+            .forget-pw a{
+                text-decoration: underline;
+            }
+            .register{
+                font-size: 14px;
+            }
+            .btn-primary{
+                background-color:#25a625;
+   				 border-color: #338633;
+            }
+         
+        </style>
+        <title>Login</title>
+    </head>
+    <body>
+        <header>
+            <div class="f-line">
+                  <a href="homepage.html"><img src="images/logo.png" loading="lazy" alt="logo"></a>
+            </div>
+
+        </header>
+        <main>
+            <div class="main-frame panel-login">
+                <div class="title">
+                    <h1>Log In</h1>
+                </div>
+                <div class="frame-input ">
+                    <form action="Login" Method="POST">
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Username</label>
+                            <input name="username" type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="User name or email ...">
+                        
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputPassword1">Password</label>
+                            <input name="password" type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                        </div>
+                       
+                        <button type="submit" class="btn btn-primary btn-ch">Login Now</button>
+                    </form>
+                  
+                    <div class="rigister-frame">
+                        <button type="button" class="btn btn-secondary btn-ch" onclick="movePage()">Register</button>
+                    </div>
+         
+                </div>
+            </div>
+        </main>
+        <script>
+            function movePage(){
+               window.location="accountRegist.html"; 
+            };
+        </script>
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    </body>
+</html>

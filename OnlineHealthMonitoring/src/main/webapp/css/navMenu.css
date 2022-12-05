@@ -1,0 +1,103 @@
+/* general */
+body {
+    margin: 0;
+    padding: 0;
+}
+
+.blue {
+    background-color:rgb(158 239 158);
+}
+
+.white {
+    background-color: white;
+}
+
+nav > div {
+    box-sizing: border-box;
+    border: 0.001px solid transparent;
+}
+
+.sidepanel {
+    width: 0px;
+    position: fixed;
+    z-index: 1;
+    height: 100%;
+    top: 0;
+    left: 0;
+    overflow-x: hidden;
+    transition: 0.5s;
+}
+
+.customBtn {
+    width: 60px;
+    height: 100px;
+    top: 50%;
+    font-size: 50px;
+    text-align: center;
+    position: absolute;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    border-top-right-radius: 30px;
+    border-bottom-right-radius: 30px;
+    transition: 0.5s;
+}
+
+.customBtn > i {
+    padding-top: 50%;
+}
+
+.customBtn:hover {
+    background-color:rgb(158 239 158);
+    color: white;
+    cursor: pointer;
+}
+
+ul {
+    margin: 0;
+    padding: 0;
+    position: relative;
+    white-space: nowrap;
+}
+
+.menu li > .menuItem {
+    display: block;
+    padding: 10px 20px;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.menu li:hover .menuItem,
+.menu li:active .menuItem {
+    background-color: white;
+    color:rgb(158 239 158);
+}
+
+.menu li {
+    display: block;
+    box-sizing: border-box;
+}
+
+.menu li[target="hiddable"] {
+    display: block;
+}
+
+.function {
+    height: 75%;
+    overflow-x: hidden;
+    top: 0;
+}
+
+.tool {
+    height: 25%;
+    overflow-x: hidden;
+    bottom: 0;
+}
+
+.mainContent {
+    height: 100%;
+    width: 100%;
+    left: 0;
+    top: 60;
+    position: fixed;
+    z-index: -1;
+}
